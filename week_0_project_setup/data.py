@@ -16,7 +16,10 @@ class DataModule(pl.LightningDataModule):
     def prepare_data(self):
         cola_dataset = load_dataset("glue", "cola")
         self.train_data = cola_dataset["train"]
+        print(self.train_data[0]) 
+
         self.val_data = cola_dataset["validation"]
+        print(self.val_data[0])
 
     def tokenize_data(self, example):
         return self.tokenizer(
@@ -39,6 +42,7 @@ class DataModule(pl.LightningDataModule):
                 type="torch", columns=["input_ids", "attention_mask", "label"]
             )
 
+    #### train_dataloader, val_dataloader and test_dataloader to load each dataset. ####
     def train_dataloader(self):
         return torch.utils.data.DataLoader(
             self.train_data, batch_size=self.batch_size, shuffle=True

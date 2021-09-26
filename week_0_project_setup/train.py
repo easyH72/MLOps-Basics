@@ -22,7 +22,16 @@ def main():
         default_root_dir="logs",
         gpus=(1 if torch.cuda.is_available() else 0),
         max_epochs=5,
-        fast_dev_run=False,
+        '''
+            https://pytorch-lightning.readthedocs.io/en/latest/common/debugging.html 
+            # fast_dev_run : unit test by running n, if set to n. (else 1). The point is to detect any bugs in the training/validation loop without having to wait for a full epoch to crash. 
+            # runs 1 train, val, test batch and program ends
+            trainer = Trainer(fast_dev_run=True)
+
+            # runs 7 train, val, test batches and program ends
+            trainer = Trainer(fast_dev_run=7)
+        '''
+        fast_dev_run=False, 
         logger=pl.loggers.TensorBoardLogger("logs/", name="cola", version=1),
         callbacks=[checkpoint_callback, early_stopping_callback],
     )
